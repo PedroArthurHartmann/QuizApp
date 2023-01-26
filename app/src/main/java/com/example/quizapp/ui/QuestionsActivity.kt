@@ -9,6 +9,7 @@ import android.widget.Toast
 import com.example.quizapp.R
 import com.example.quizapp.ui.RetryActivity
 import com.example.quizapp.databinding.ActivityQuestionsBinding
+import kotlinx.coroutines.delay
 
 class QuestionsActivity : AppCompatActivity() {
 
@@ -37,21 +38,17 @@ class QuestionsActivity : AppCompatActivity() {
             forEachIndexed { index, button ->
                 button.setOnClickListener {
                     selectedOpt = index
+
+                    if (selectedOpt == questions[currQuestionIdx].correctAnswer) {
+                        it.setBackgroundColor(resources.getColor(R.color.green))
+                        Thread.sleep(1000)
+                        nextQuestion()
+                    }
                 }
             }
         }
 
         nextQuestion()
-
-        binding.btnSubmit.setOnClickListener {
-            if (selectedOpt == questions[currQuestionIdx].correctAnswer)
-                nextQuestion()
-            else {
-                Toast.makeText(this, "Wrong option", Toast.LENGTH_SHORT).show()
-                arrOptions[selectedOpt!!].setBackgroundColor(resources.getColor(R.color.red))
-                gotCorrect = false
-            }
-        }
     }
 
     private fun finishThis() {
