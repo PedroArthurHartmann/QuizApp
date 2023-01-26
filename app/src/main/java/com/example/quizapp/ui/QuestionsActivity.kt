@@ -3,13 +3,14 @@ package com.example.quizapp.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import com.example.quizapp.R
-import com.example.quizapp.ui.RetryActivity
 import com.example.quizapp.databinding.ActivityQuestionsBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class QuestionsActivity : AppCompatActivity() {
 
@@ -43,8 +44,11 @@ class QuestionsActivity : AppCompatActivity() {
 
                     if (selectedOpt == questions[currQuestionIdx].correctAnswer) {
                         arrOptions[selectedOpt!!].setBackgroundColor(resources.getColor(R.color.green))
-                        Thread.sleep(1000)
-                        nextQuestion()
+
+                        CoroutineScope(Dispatchers.Main).launch {
+                            delay(1000)
+                            nextQuestion()
+                        }
                     }
                     else {
                             wrongOptionToast.show()
