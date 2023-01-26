@@ -29,6 +29,8 @@ class QuestionsActivity : AppCompatActivity() {
 
         name = intent.getStringExtra("USERNAME") ?: ""
 
+        val wrongOptionToast = Toast.makeText(this,"Wrong option",Toast.LENGTH_LONG)
+
         arrOptions = arrayOf(
             binding.btOptionOne,
             binding.btOptionTwo,
@@ -40,9 +42,14 @@ class QuestionsActivity : AppCompatActivity() {
                     selectedOpt = index
 
                     if (selectedOpt == questions[currQuestionIdx].correctAnswer) {
-                        it.setBackgroundColor(resources.getColor(R.color.green))
+                        arrOptions[selectedOpt!!].setBackgroundColor(resources.getColor(R.color.green))
                         Thread.sleep(1000)
                         nextQuestion()
+                    }
+                    else {
+                            wrongOptionToast.show()
+                            arrOptions[selectedOpt!!].setBackgroundColor(resources.getColor(R.color.red))
+                            gotCorrect = false
                     }
                 }
             }
